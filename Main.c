@@ -25,6 +25,9 @@ int main(void) {
             case 4:
                 alterarStatusPedido();
                 break;
+            case 5:
+                buscarPedidoPorNumero();
+                break;
             case 9:
                 printf("Encerrando o sistema\n");
                 break;

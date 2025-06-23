@@ -6,18 +6,11 @@
 p_pedido pedidos[MAX_PEDIDO];
 int contador = 0;
 
-
-/**
- * @Essa função tem como objetivo auxiliar o código principal, limpando o quebra de linha '\n' quando o usuario aperta a tecla 'enter' que fica salvo no Buffer.
- */
 void limparBufferEntrada() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-/**
- * @param str
- */
 void removerNovaLinha(char *str) {
     size_t len = strlen(str);
     if (len > 0 && str[len - 1] == '\n') {
@@ -31,19 +24,6 @@ void inicializaPedido() {
     }
 }
 
-/**
- * A função exibirMenu(); tem o objetivo exibir o menu do sistema.
- */
-void exibirMenu() {
-    printf("\n Menu do Sistema \n");
-    printf("1. Cadastrar Novo Pedido \n");
-    printf("2. Exibir Pedidos Salvos (Arquivo) \n");
-    printf("3. Exibir Faturamento Total \n");
-    printf("4. alterar Status do Pedido \n");
-    printf("9. SAIR do sistema \n");
-    printf("Escolha sua opcao: \n");
-}
-
 void pausaParaContinuar() {
     printf("\nPressione ENTER para continuar..\n");
     getchar();
@@ -53,6 +33,25 @@ int contadorPedido() {
     return ++contador;
 }
 
+
+/**
+ * A função exibirMenu(); tem o objetivo exibir o menu do sistema.
+ */
+void exibirMenu() {
+    printf("\n Menu do Sistema \n");
+    printf("1. Cadastrar Novo Pedido \n");
+    printf("2. Exibir Pedidos Salvos (Arquivo) \n");
+    printf("3. Exibir Faturamento Total \n");
+    printf("4. alterar Status do Pedido \n");
+    printf("5. Buscar Pedido por Numero \n");
+    printf("9. SAIR do sistema \n");
+    printf("Escolha sua opcao: \n");
+}
+
+
+/**
+ * A função exibirDadosPedidos(); tem o objetivo auxiliar a função buscarPedidoPorNumero(); a mostrar os dados salvos no arquivo .CSV.
+ */
 void exibirDadosPedidos(pedido *p_p) {
     if (p_p == NULL) {
         printf("Referencia nula...\n");
@@ -69,6 +68,11 @@ void exibirDadosPedidos(pedido *p_p) {
     printf("-----------------------------\n");
 }
 
+
+/**
+ * A função cardapio(); tem o objetivo de mostrar os itens que estão disponíveis no estabelecimento.
+*/
+
 void cardapio() {
     printf("\n----------------------------\n");
     printf("\n      CARDAPIO\n");
@@ -79,6 +83,10 @@ void cardapio() {
 }
 
 
+/**
+ * A função cadastrarPedido(); é a 'principal' função do sistema e tem o objetivo de salvar (número do pedido -
+ * nome do cliente - item escolhido - quantidade do item - preço do item - CPF).
+*/
 void cadastrarPedido() {
     int i = 0;
     int escolhaCpf = 0;
@@ -107,7 +115,6 @@ void cadastrarPedido() {
 
     cardapio();
     printf("Realizar um novo cadastro de pedido\n");
-    limparBufferEntrada();
 
     printf("Numero do pedido: %d\n", pedidos[posicao]->numero);
 
@@ -115,21 +122,21 @@ void cadastrarPedido() {
     fgets(pedidos[posicao]->nome, sizeof(pedidos[posicao]->nome), stdin);
     removerNovaLinha(pedidos[posicao]->nome);
 
-    printf("Digite o itens: \n");
+    printf("Digite o item: \n");
     fgets(pedidos[posicao]->item, sizeof(pedidos[posicao]->item), stdin);
     removerNovaLinha(pedidos[posicao]->item);
 
-    printf("Digite a Quantidade dos itens: \n");
+    printf("Digite a Quantidade do item: \n");
     fgets(pedidos[posicao]->qtd, sizeof(pedidos[posicao]->qtd), stdin);
     removerNovaLinha(pedidos[posicao]->qtd);
 
-    printf("Digite o preco total dos itens: \n");
+    printf("Digite o preco total do item: \n");
     fgets(pedidos[posicao]->preco, sizeof(pedidos[posicao]->preco), stdin);
     removerNovaLinha(pedidos[posicao]->preco);
 
     printf("O cliente deseja cadastrar o CPF? (APERTE 0 PARA SIM E 1 PARA NAO)\n");
     scanf("%d", &escolhaCpf);
-    getchar(); // limpa o '\n'
+    limparBufferEntrada();
 
     if (escolhaCpf == 0) {
         printf("Digite o CPF do cliente: \n");
@@ -164,7 +171,7 @@ void cadastrarPedido() {
 
 
 /**
- * A função atualizarArquivoCSV(); tem o objetivo auxiliar no salvamento dos dados no arquivo .CSV, pois os dados de uma novo pedido ficam salvos na memoria, essa função pega esses dados e salvo no arquivo .CSV.
+ * A função atualizarArquivoCSV(); tem o objetivo auxiliar no salvamento dos dados no arquivo .CSV, pois os dados de uma novo pedido ficam salvos na memória, essa função pega esses dados e salvo no arquivo .CSV.
 */
 void atualizarArquivoCSV() {
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "w");
@@ -215,6 +222,7 @@ void exibirPedidosSalvos() {
 
     fclose(arquivo);
 }
+
 
 /**
  * A função calcularFaturamentoTotal(); tem o objetivo de fazer a soma do valor de todos os pedidos feitos.
@@ -320,4 +328,25 @@ void carregarPedidosDoCSV() {
 
     contador = maiorNumero;
     fclose(arquivo);
+}
+
+
+/**
+ * A função buscarPedidoPorNumero(); tem o objetivo buscar e mostrar um determinado pedido pelo número do pedido feito.
+*/
+void buscarPedidoPorNumero() {
+
+    int numero;
+
+    printf("Digite o numero do pedido que deseja buscar: ");
+    scanf("%d", &numero);
+    limparBufferEntrada();
+
+    for (int i = 0; i < MAX_PEDIDO; i++) {
+        if (pedidos[i] != NULL && pedidos[i]->numero == numero) {
+            exibirDadosPedidos(pedidos[i]);
+            return;
+        }
+    }
+    printf("Pedido com numero %d nao encontrado.\n", numero);
 }

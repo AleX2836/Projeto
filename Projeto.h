@@ -25,8 +25,6 @@ extern p_pedido pedidos[MAX_PEDIDO];
 
 void exibirMenu();
 
-void inicializaPedido();
-
 void pausaParaContinuar();
 
 void cadastrarPedido();
@@ -37,6 +35,11 @@ void calcularFaturamentoTotal();
 
 void alterarStatusPedido();
 
+void inicializaPedido();
+
 void carregarPedidosDoCSV();
+
+void buscarPedidoPorNumero();
+
 
 #endif // PROJETO_H
