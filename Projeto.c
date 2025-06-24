@@ -38,14 +38,27 @@ int contadorPedido() {
  * A função exibirMenu(); tem o objetivo exibir o menu do sistema.
  */
 void exibirMenu() {
-    printf("\n Menu do Sistema \n");
-    printf("1. Cadastrar Novo Pedido \n");
-    printf("2. Exibir Pedidos Salvos (Arquivo) \n");
-    printf("3. Exibir Faturamento Total \n");
-    printf("4. alterar Status do Pedido \n");
-    printf("5. Buscar Pedido por Numero \n");
-    printf("9. SAIR do sistema \n");
-    printf("Escolha sua opcao: \n");
+
+    int a = 186;
+    int b = 187;
+    int c = 201;
+    int d = 188;
+    int e = 200;
+    int f = 175;
+
+
+    printf("                                    %c                                 %c\n", c, b);
+    printf("                                    %c          Menu do Sistema        %c\n", a, a);
+    printf("                                    %c                                 %c\n", a, a);
+    printf("                                    %c   1 %c Cadastrar Novo Pedido     %c\n", a,f, a);
+    printf("                                    %c   2 %c Exibir Pedidos Salvos     %c\n", a,f, a);
+    printf("                                    %c   3 %c Exibir Faturamento Total  %c\n", a,f, a);
+    printf("                                    %c   4 %c alterar Status do Pedido  %c\n", a,f, a);
+    printf("                                    %c   5 %c Buscar Pedido por Numero  %c\n", a,f, a);
+    printf("                                    %c   9 %c SAIR do sistema           %c\n", a,f, a);
+    printf("                                    %c                                 %c\n", a, a);
+    printf("                                    %c        Escolha sua opcao        %c\n", e, d);
+
 }
 
 
@@ -57,8 +70,8 @@ void exibirDadosPedidos(pedido *p_p) {
         printf("Referencia nula...\n");
         return;
     }
-    printf("\n-----------------------------\n");
-    printf("Numero do Pedido: %d\n", p_p->numero);
+    printf("    -----------------------------\n");
+    printf("    Numero do Pedido: %d\n", p_p->numero);
     printf("Nome: %s \n", p_p->nome);
     printf("Itens: %s\n", p_p->item);
     printf("CPF: %s \n", p_p->cpf);
@@ -74,9 +87,9 @@ void exibirDadosPedidos(pedido *p_p) {
 */
 
 void cardapio() {
-    printf("\n----------------------------\n");
-    printf("\n      CARDAPIO\n");
-    printf("\n1 - Self service (R$ 30)\n");
+    printf("----------------------------\n");
+    printf("      CARDAPIO\n");
+    printf("1 - Self service (R$ 30)\n");
     printf("2 - Marmitex Pequena (R$ 13)\n");
     printf("3 - Marmitex Media (R$ 23)\n");
     printf("----------------------------\n\n");
@@ -110,13 +123,17 @@ void cadastrarPedido() {
         return;
     }
 
-    pedidos[posicao]->numero = contadorPedido();
-    strcpy(pedidos[posicao]->status, "Status do Pedido: Em Preparo...");
+
 
     cardapio();
     printf("Realizar um novo cadastro de pedido\n");
 
+    pedidos[posicao]->numero = contadorPedido();
+    strcpy(pedidos[posicao]->status, "\nStatus do Pedido: Em Preparo...");
+
     printf("Numero do pedido: %d\n", pedidos[posicao]->numero);
+
+
 
     printf("Digite o nome do cliente: \n");
     limparBufferEntrada();
@@ -140,15 +157,15 @@ void cadastrarPedido() {
     limparBufferEntrada();
 
     if (escolhaCpf == 0) {
-        printf("Digite o CPF do cliente: \n");
+        printf("\nDigite o CPF do cliente: \n");
         fgets(pedidos[posicao]->cpf, sizeof(pedidos[posicao]->cpf), stdin);
         removerNovaLinha(pedidos[posicao]->cpf);
         printf("%s \n", pedidos[posicao]->status);
-        printf("Pedido CADASTRADO \n");
+        printf("\nPedido CADASTRADO \n");
     } else {
-        strcpy(pedidos[posicao]->cpf, "NAO INFORMADO");
+        strcpy(pedidos[posicao]->cpf, "\nNAO INFORMADO");
         printf("%s \n", pedidos[posicao]->status);
-        printf("Pedido CADASTRADO \n");
+        printf("\nPedido CADASTRADO \n");
     }
 
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "a");
@@ -156,6 +173,8 @@ void cadastrarPedido() {
         printf("Erro ao abrir o arquivo para escrita.\n");
         return;
     }
+
+
 
     fprintf(arquivo, "%d,%s,%s,%s,%s,%s,%s\n",
         pedidos[posicao]->numero,
