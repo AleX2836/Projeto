@@ -119,6 +119,7 @@ void cadastrarPedido() {
     printf("Numero do pedido: %d\n", pedidos[posicao]->numero);
 
     printf("Digite o nome do cliente: \n");
+    limparBufferEntrada();
     fgets(pedidos[posicao]->nome, sizeof(pedidos[posicao]->nome), stdin);
     removerNovaLinha(pedidos[posicao]->nome);
 
@@ -315,14 +316,14 @@ void carregarPedidosDoCSV() {
 
         if (camposLidos != 7) {
             printf("Linha inválida no CSV e será ignorada: %s\n", linha);
-            pedidos[i] = NULL; // << zera manualmente
-            // não incrementa o `i`
+            pedidos[i] = NULL;
+
         } else {
-            // se a linha foi válida, atualiza maiorNúmero e passa para o próximo
+
             if (pedidos[i]->numero > maiorNumero) {
                 maiorNumero = pedidos[i]->numero;
             }
-            i++; // incrementa só quando o pedido foi válido
+            i++;
         }
     }
 
