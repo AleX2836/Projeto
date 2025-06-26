@@ -29,7 +29,7 @@ CSV.
 
 1. **Cloneo repositório:**
    ‘‘‘bash
-   gitclone github.com/AleX2836/Projeto.git
+   git clone github.com/AleX2836/Projeto.git
    cd Projeto
    ‘‘‘
 
