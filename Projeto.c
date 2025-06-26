@@ -6,6 +6,14 @@
 p_pedido pedidos[MAX_PEDIDO];
 int contador = 0;
 
+int a = 186;
+int b = 187;
+int c = 201;
+int d = 188;
+int e = 200;
+int f = 175;
+
+
 void limparBufferEntrada() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
@@ -39,25 +47,22 @@ int contadorPedido() {
  */
 void exibirMenu() {
 
-    int a = 186;
-    int b = 187;
-    int c = 201;
-    int d = 188;
-    int e = 200;
-    int f = 175;
 
 
-    printf("                                    %c                                 %c\n", c, b);
-    printf("                                    %c          Menu do Sistema        %c\n", a, a);
-    printf("                                    %c                                 %c\n", a, a);
-    printf("                                    %c   1 %c Cadastrar Novo Pedido     %c\n", a,f, a);
-    printf("                                    %c   2 %c Exibir Pedidos Salvos     %c\n", a,f, a);
-    printf("                                    %c   3 %c Exibir Faturamento Total  %c\n", a,f, a);
-    printf("                                    %c   4 %c alterar Status do Pedido  %c\n", a,f, a);
-    printf("                                    %c   5 %c Buscar Pedido por Numero  %c\n", a,f, a);
-    printf("                                    %c   9 %c SAIR do sistema           %c\n", a,f, a);
-    printf("                                    %c                                 %c\n", a, a);
-    printf("                                    %c        Escolha sua opcao        %c\n", e, d);
+
+    printf(" %c=================================%c\n", c, b);
+    printf(" %c                                 %c\n", a, a);
+    printf(" %c         Menu do Sistema         %c\n", a, a);
+    printf(" %c                                 %c\n", a, a);
+    printf(" %c   1 %c Cadastrar Novo Pedido     %c\n", a,f, a);
+    printf(" %c   2 %c Exibir Pedidos Salvos     %c\n", a,f, a);
+    printf(" %c   3 %c Exibir Faturamento Total  %c\n", a,f, a);
+    printf(" %c   4 %c alterar Status do Pedido  %c\n", a,f, a);
+    printf(" %c   5 %c Buscar Pedido por Numero  %c\n", a,f, a);
+    printf(" %c   9 %c SAIR do sistema           %c\n", a,f, a);
+    printf(" %c                                 %c\n", a, a);
+    printf(" %c        Escolha sua opcao        %c\n", a, a);
+    printf(" %c=================================%c\n", e, d);
 
 }
 
@@ -67,16 +72,16 @@ void exibirMenu() {
  */
 void exibirDadosPedidos(pedido *p_p) {
     if (p_p == NULL) {
-        printf("Referencia nula...\n");
+        printf(" Referencia nula...\n");
         return;
     }
     printf("    -----------------------------\n");
-    printf("    Numero do Pedido: %d\n", p_p->numero);
-    printf("Nome: %s \n", p_p->nome);
-    printf("Itens: %s\n", p_p->item);
-    printf("CPF: %s \n", p_p->cpf);
-    printf("Quantidade: %s \n", p_p->qtd);
-    printf("Preco: %s \n", p_p->preco);
+    printf("%c Numero do Pedido: %d %c\n", p_p->numero, a,a);
+    printf(" Nome: %s \n", p_p->nome);
+    printf(" Itens: %s\n", p_p->item);
+    printf(" CPF: %s \n", p_p->cpf);
+    printf(" Quantidade: %s \n", p_p->qtd);
+    printf(" Preco: %s \n", p_p->preco);
     printf("%s \n", p_p->status);
     printf("-----------------------------\n");
 }
@@ -87,12 +92,20 @@ void exibirDadosPedidos(pedido *p_p) {
 */
 
 void cardapio() {
-    printf("----------------------------\n");
-    printf("      CARDAPIO\n");
-    printf("1 - Self service (R$ 30)\n");
-    printf("2 - Marmitex Pequena (R$ 13)\n");
-    printf("3 - Marmitex Media (R$ 23)\n");
-    printf("----------------------------\n\n");
+    printf(" %c=================================%c\n", c, b);
+    printf(" %c                                 %c\n",a ,a);
+    printf(" %c           CARDAPIO              %c\n",a ,a);
+    printf(" %c                                 %c\n",a ,a);
+    printf(" %c  1 %c Self service.....(R$ 30)   %c\n",a,f ,a);
+    printf(" %c  2 %c Marmitex Pequena.(R$ 13)   %c\n",a,f ,a);
+    printf(" %c  3 %c Marmitex Media...(R$ 23)   %c\n",a,f ,a);
+    printf(" %c  4 %c Marmitex Grande..(R$ 30)   %c\n",a,f ,a);
+    printf(" %c  5 %c Marmitex Media...(R$ 23)   %c\n",a,f ,a);
+    printf(" %c  6 %c Coca Cola........(R$ 08)   %c\n",a,f ,a);
+    printf(" %c  7 %c Coxinha..........(R$ 10)   %c\n",a,f ,a);
+    printf(" %c                                 %c\n",a ,a);
+    printf(" %c        Escolha sua opcao        %c\n", a ,a);
+    printf(" %c==================================%c\n", e, d);
 }
 
 
@@ -126,46 +139,46 @@ void cadastrarPedido() {
 
 
     cardapio();
-    printf("Realizar um novo cadastro de pedido\n");
+    printf("\n Realizar um novo cadastro de pedido\n");
 
     pedidos[posicao]->numero = contadorPedido();
-    strcpy(pedidos[posicao]->status, "\nStatus do Pedido: Em Preparo...");
+    strcpy(pedidos[posicao]->status, "Status do Pedido: Em Preparo...");
 
-    printf("Numero do pedido: %d\n", pedidos[posicao]->numero);
+    printf(" Numero do pedido: %d\n", pedidos[posicao]->numero);
 
 
 
-    printf("Digite o nome do cliente: \n");
+    printf(" Digite o nome do cliente: \n");
     limparBufferEntrada();
     fgets(pedidos[posicao]->nome, sizeof(pedidos[posicao]->nome), stdin);
     removerNovaLinha(pedidos[posicao]->nome);
 
-    printf("Digite o item: \n");
+    printf(" Digite o item: \n");
     fgets(pedidos[posicao]->item, sizeof(pedidos[posicao]->item), stdin);
     removerNovaLinha(pedidos[posicao]->item);
 
-    printf("Digite a Quantidade do item: \n");
+    printf(" Digite a Quantidade do item: \n");
     fgets(pedidos[posicao]->qtd, sizeof(pedidos[posicao]->qtd), stdin);
     removerNovaLinha(pedidos[posicao]->qtd);
 
-    printf("Digite o preco total do item: \n");
+    printf(" Digite o preco total do item: \n");
     fgets(pedidos[posicao]->preco, sizeof(pedidos[posicao]->preco), stdin);
     removerNovaLinha(pedidos[posicao]->preco);
 
-    printf("O cliente deseja cadastrar o CPF? (APERTE 0 PARA SIM E 1 PARA NAO)\n");
+    printf(" O cliente deseja cadastrar o CPF? (APERTE 0 PARA SIM E 1 PARA NAO)\n");
     scanf("%d", &escolhaCpf);
     limparBufferEntrada();
 
     if (escolhaCpf == 0) {
-        printf("\nDigite o CPF do cliente: \n");
+        printf("\n Digite o CPF do cliente: \n");
         fgets(pedidos[posicao]->cpf, sizeof(pedidos[posicao]->cpf), stdin);
         removerNovaLinha(pedidos[posicao]->cpf);
         printf("%s \n", pedidos[posicao]->status);
-        printf("\nPedido CADASTRADO \n");
+        printf("\n Pedido CADASTRADO \n");
     } else {
-        strcpy(pedidos[posicao]->cpf, "\nNAO INFORMADO");
+        strcpy(pedidos[posicao]->cpf, " NAO INFORMADO");
         printf("%s \n", pedidos[posicao]->status);
-        printf("\nPedido CADASTRADO \n");
+        printf("\n Pedido CADASTRADO \n");
     }
 
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "a");
