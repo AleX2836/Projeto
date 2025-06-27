@@ -13,12 +13,17 @@ int d = 188;
 int e = 200;
 int f = 175;
 
-
+/**
+ * A função limparBufferEntrada(); tem o objetivo de remover o caracter de nova linha(\n).
+*/
 void limparBufferEntrada() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
+/**
+ * A função lremoverNovaLinha(); tem o objetivo de remover caracteres restantes no buffer de entrada.
+*/
 void removerNovaLinha(char *str) {
     size_t len = strlen(str);
     if (len > 0 && str[len - 1] == '\n') {
@@ -26,17 +31,26 @@ void removerNovaLinha(char *str) {
     }
 }
 
+/**
+ * A função inicializaPedido(); tem o objetivo inicializar os pedidos como NULL.
+*/
 void inicializaPedido() {
     for (int i = 0; i < MAX_PEDIDO; i++) {
         pedidos[i] = NULL;
     }
 }
 
+/**
+ * A função pausaParaContinuar(); tem o objetivo de dar um intervalo no meio das ações do sistema.
+*/
 void pausaParaContinuar() {
     printf("\nPressione ENTER para continuar..\n");
     getchar();
 }
 
+/**
+ * A função contadorPedido(); tem o objetivo de acumular os números dos pedidos de forma crescente.
+*/
 int contadorPedido() {
     return ++contador;
 }
@@ -44,11 +58,8 @@ int contadorPedido() {
 
 /**
  * A função exibirMenu(); tem o objetivo exibir o menu do sistema.
- */
+*/
 void exibirMenu() {
-
-
-
 
     printf(" %c=================================%c\n", c, b);
     printf(" %c                                 %c\n", a, a);
@@ -66,15 +77,16 @@ void exibirMenu() {
 
 }
 
-
 /**
  * A função exibirDadosPedidos(); tem o objetivo auxiliar a função buscarPedidoPorNumero(); a mostrar os dados salvos no arquivo .CSV.
- */
+*/
 void exibirDadosPedidos(pedido *p_p) {
+
     if (p_p == NULL) {
         printf(" Referencia nula...\n");
         return;
     }
+
     printf("    -----------------------------\n");
     printf("%c Numero do Pedido: %d %c\n", p_p->numero, a,a);
     printf(" Nome: %s \n", p_p->nome);
@@ -86,12 +98,12 @@ void exibirDadosPedidos(pedido *p_p) {
     printf("-----------------------------\n");
 }
 
-
 /**
  * A função cardapio(); tem o objetivo de mostrar os itens que estão disponíveis no estabelecimento.
 */
 
 void cardapio() {
+
     printf(" %c=================================%c\n", c, b);
     printf(" %c                                 %c\n",a ,a);
     printf(" %c           CARDAPIO              %c\n",a ,a);
@@ -106,6 +118,7 @@ void cardapio() {
     printf(" %c                                 %c\n",a ,a);
     printf(" %c        Escolha sua opcao        %c\n", a ,a);
     printf(" %c==================================%c\n", e, d);
+
 }
 
 
@@ -114,6 +127,7 @@ void cardapio() {
  * nome do cliente - item escolhido - quantidade do item - preço do item - CPF).
 */
 void cadastrarPedido() {
+
     int i = 0;
     int escolhaCpf = 0;
     int posicao = -1;
@@ -131,12 +145,13 @@ void cadastrarPedido() {
     }
 
     pedidos[posicao] = (pedido *)malloc(sizeof(pedido));
+
     if (pedidos[posicao] == NULL) {
         printf("Erro de alocacao de memoria\n");
         return;
     }
 
-
+    limparBufferEntrada();
 
     cardapio();
     printf("\n Realizar um novo cadastro de pedido\n");
@@ -149,7 +164,6 @@ void cadastrarPedido() {
 
 
     printf(" Digite o nome do cliente: \n");
-    limparBufferEntrada();
     fgets(pedidos[posicao]->nome, sizeof(pedidos[posicao]->nome), stdin);
     removerNovaLinha(pedidos[posicao]->nome);
 
@@ -170,24 +184,28 @@ void cadastrarPedido() {
     limparBufferEntrada();
 
     if (escolhaCpf == 0) {
+
         printf("\n Digite o CPF do cliente: \n");
         fgets(pedidos[posicao]->cpf, sizeof(pedidos[posicao]->cpf), stdin);
         removerNovaLinha(pedidos[posicao]->cpf);
+
         printf("%s \n", pedidos[posicao]->status);
         printf("\n Pedido CADASTRADO \n");
+
     } else {
         strcpy(pedidos[posicao]->cpf, " NAO INFORMADO");
+
         printf("%s \n", pedidos[posicao]->status);
         printf("\n Pedido CADASTRADO \n");
     }
 
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "a");
     if (arquivo == NULL) {
+
         printf("Erro ao abrir o arquivo para escrita.\n");
+
         return;
     }
-
-
 
     fprintf(arquivo, "%d,%s,%s,%s,%s,%s,%s\n",
         pedidos[posicao]->numero,
@@ -202,12 +220,13 @@ void cadastrarPedido() {
     fclose(arquivo);
 }
 
-
 /**
  * A função atualizarArquivoCSV(); tem o objetivo auxiliar no salvamento dos dados no arquivo .CSV, pois os dados de uma novo pedido ficam salvos na memória, essa função pega esses dados e salvo no arquivo .CSV.
 */
 void atualizarArquivoCSV() {
+
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "w");
+
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo para atualizar.\n");
         return;
@@ -226,10 +245,8 @@ void atualizarArquivoCSV() {
             );
         }
     }
-
     fclose(arquivo);
 }
-
 
 /**
  * A função exibirPedidosSalvos(); tem o objetivo de fazer a soma do valor de todos os pedidos feitos.
@@ -261,7 +278,9 @@ void exibirPedidosSalvos() {
  * A função calcularFaturamentoTotal(); tem o objetivo de fazer a soma do valor de todos os pedidos feitos.
 */
 void calcularFaturamentoTotal() {
+
     float total = 0;
+
     for (int i = 0; i < MAX_PEDIDO; i++) {
         if (pedidos[i] != NULL) {
             total += atof(pedidos[i]->preco);
@@ -290,14 +309,14 @@ void alterarStatusPedido() {
             removerNovaLinha(novoStatus);
             strcpy(pedidos[i]->status, novoStatus);
             atualizarArquivoCSV();
+
             printf("Status atualizado com sucesso!\n");
+
             return;
         }
     }
-
     printf("Pedido nao encontrado.\n");
 }
-
 
 /**
  * A função carregarPedidosDoCSV(); tem o objetivo ler as informações que estão salvas no arquivo .CSV.
@@ -327,7 +346,6 @@ void carregarPedidosDoCSV() {
             break;
         }
 
-        // Tenta alocar espaço para o novo pedido
         pedidos[i] = (pedido *)malloc(sizeof(pedido));
         if (pedidos[i] == NULL) {
             printf("Erro de alocação de memória.\n");
@@ -358,11 +376,9 @@ void carregarPedidosDoCSV() {
             i++;
         }
     }
-
     contador = maiorNumero;
     fclose(arquivo);
 }
-
 
 /**
  * A função buscarPedidoPorNumero(); tem o objetivo buscar e mostrar um determinado pedido pelo número do pedido feito.

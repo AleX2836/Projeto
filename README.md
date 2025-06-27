@@ -19,7 +19,7 @@ Item escolhido, a quantidade de item escolhido, o preço total, CPF e Status do 
 - Atualização do Status do Pedido;
 - Busca por número do Pedido;
 
-## Estrutura deDados
+## Estrutura de Dados
 
 Os dados são armazenados em memória utilizando um vetor globalde ponteiros para
 structs, com alocação dinâmica. A persistência dos dados é realizada em um arquivo
