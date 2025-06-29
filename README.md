@@ -28,23 +28,23 @@ CSV.
 ## Como Baixar e Compilar
 
 1. **Cloneo repositório:**
-   ‘‘‘bash
+    ```bash
    git clone github.com/AleX2836/Projeto.git
    cd Projeto
-   ‘‘‘
+   ```
 
 2. **Compile ocódigo:**
    Certifique-se de ter um compilador C(como o GCC) instalado.
-   ‘‘‘bash
-   gcc-main.c Projeto.c-Wall
-   ‘‘‘
+   ```bash
+   gcc -O main.c Projeto.c -Wall
+   ```
 
 ## Como Testar
 
 1. **Execute o programa compilado:**
-   ‘‘‘bash
+   ```bash
    ./Projeto
-   ‘‘‘
+   ```
 
 2. Siga as instruções do menu interativo no console para realizaras operações de Cadastro de pedidos.
 

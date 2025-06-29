@@ -4,8 +4,11 @@
 #include <string.h>
 
 p_pedido pedidos[MAX_PEDIDO];
+
+//Variável para armazenar o número dos medidos.
 int contador = 0;
 
+//Variáves para uso da tabela ASCII.
 int a = 186;
 int b = 187;
 int c = 201;
@@ -14,7 +17,7 @@ int e = 200;
 int f = 175;
 
 /**
- * A função limparBufferEntrada(); tem o objetivo de remover o caracter de nova linha(\n).
+ * A função limparBufferEntrada(); tem o objetivo de remover caracteres restantes no buffer de entrada.
 */
 void limparBufferEntrada() {
     int c;
@@ -22,7 +25,7 @@ void limparBufferEntrada() {
 }
 
 /**
- * A função lremoverNovaLinha(); tem o objetivo de remover caracteres restantes no buffer de entrada.
+ * A função removerNovaLinha(); tem o objetivo de remover o caracter de nova linha(\n).
 */
 void removerNovaLinha(char *str) {
     size_t len = strlen(str);
@@ -32,7 +35,7 @@ void removerNovaLinha(char *str) {
 }
 
 /**
- * A função inicializaPedido(); tem o objetivo inicializar os pedidos como NULL.
+ * A função inicializaPedido(); tem o objetivo inicializar os pedidos no arquivo CSV.
 */
 void inicializaPedido() {
     for (int i = 0; i < MAX_PEDIDO; i++) {
@@ -44,7 +47,7 @@ void inicializaPedido() {
  * A função pausaParaContinuar(); tem o objetivo de dar um intervalo no meio das ações do sistema.
 */
 void pausaParaContinuar() {
-    printf("\nPressione ENTER para continuar..\n");
+    printf("\n Pressione ENTER para continuar..\n");
     getchar();
 }
 
@@ -55,6 +58,51 @@ int contadorPedido() {
     return ++contador;
 }
 
+void linhas(int qtd){
+
+    int v = 220;
+
+    for (int i = 0; i < qtd; i++) {
+        printf("%c", v);
+    }
+}
+
+/**
+ * A função validarNome(); tem o objetivo de ser uma função auxiliar, para que o usuário digite corretamente o seu nome.
+*/
+int validarNome(const *nome) {
+
+    if (strlen(nome) == 0) return 0;
+
+    for (int i = 0; i < nome[i] != '\0'; i++) {
+        if (nome[i] >='0' && nome[i] <= '9') {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+/**
+ * A função validarCPF(); tem o objetivo de ser uma função auxiliar, para que o usuário digite corretamente o seu CPF.
+*/
+int validarCPF(const char *cpf) {
+
+    if (strlen(cpf) != 14) return 0;
+
+    for (int i = 0; i < 14; i++) {
+        if (i == 3 || i == 7) {
+            if (cpf[i] != '.')
+                return 0;
+        } else if (i == 11) {
+            if (cpf[i] != '-')
+                return 0;
+        } else {
+            if (cpf[i] < '0' || cpf[i] > '9')
+                return 0;
+        }
+    }
+    return 1;
+}
 
 /**
  * A função exibirMenu(); tem o objetivo exibir o menu do sistema.
@@ -70,6 +118,7 @@ void exibirMenu() {
     printf(" %c   3 %c Exibir Faturamento Total  %c\n", a,f, a);
     printf(" %c   4 %c alterar Status do Pedido  %c\n", a,f, a);
     printf(" %c   5 %c Buscar Pedido por Numero  %c\n", a,f, a);
+    printf(" %c   6 %c Excluir pedido            %c\n", a,f, a);
     printf(" %c   9 %c SAIR do sistema           %c\n", a,f, a);
     printf(" %c                                 %c\n", a, a);
     printf(" %c        Escolha sua opcao        %c\n", a, a);
@@ -87,15 +136,15 @@ void exibirDadosPedidos(pedido *p_p) {
         return;
     }
 
-    printf("    -----------------------------\n");
-    printf("%c Numero do Pedido: %d %c\n", p_p->numero, a,a);
-    printf(" Nome: %s \n", p_p->nome);
-    printf(" Itens: %s\n", p_p->item);
-    printf(" CPF: %s \n", p_p->cpf);
-    printf(" Quantidade: %s \n", p_p->qtd);
-    printf(" Preco: %s \n", p_p->preco);
-    printf("%s \n", p_p->status);
-    printf("-----------------------------\n");
+    linhas(35);
+    printf("\n   Pedido      :  %d     \n",p_p->numero);
+    printf("   Nome        :  %s     \n",p_p->nome);
+    printf("   Item        :  %s     \n",p_p->item);
+    printf("   Quantidade  :  %s     \n",p_p->qtd);
+    printf("   CPF         :  %s     \n",p_p->cpf);
+    printf("   Preco       :  R$ %s  \n",p_p->preco);
+    printf("   Status      : %s     \n",p_p->status);
+    linhas(35);
 }
 
 /**
@@ -140,14 +189,14 @@ void cadastrarPedido() {
     }
 
     if (posicao == -1) {
-        printf("Nao ha espaco na memoria para mais pedidos\n");
+        printf(" Nao ha espaco na memoria para mais pedidos\n");
         return;
     }
 
     pedidos[posicao] = (pedido *)malloc(sizeof(pedido));
 
     if (pedidos[posicao] == NULL) {
-        printf("Erro de alocacao de memoria\n");
+        printf(" Erro de alocacao de memoria\n");
         return;
     }
 
@@ -157,15 +206,19 @@ void cadastrarPedido() {
     printf("\n Realizar um novo cadastro de pedido\n");
 
     pedidos[posicao]->numero = contadorPedido();
-    strcpy(pedidos[posicao]->status, "Status do Pedido: Em Preparo...");
+    strcpy(pedidos[posicao]->status, " Em Preparo...");
 
     printf(" Numero do pedido: %d\n", pedidos[posicao]->numero);
 
 
-
-    printf(" Digite o nome do cliente: \n");
-    fgets(pedidos[posicao]->nome, sizeof(pedidos[posicao]->nome), stdin);
-    removerNovaLinha(pedidos[posicao]->nome);
+    do {
+        printf(" Digite o nome do cliente: \n");
+        fgets(pedidos[posicao]->nome, sizeof(pedidos[posicao]->nome), stdin);
+        removerNovaLinha(pedidos[posicao]->nome);
+        if (!validarNome(pedidos[posicao]->nome)) {
+            printf(" Nome invalido\n");
+        }
+    }while (!validarNome(pedidos[posicao]->nome));
 
     printf(" Digite o item: \n");
     fgets(pedidos[posicao]->item, sizeof(pedidos[posicao]->item), stdin);
@@ -185,15 +238,22 @@ void cadastrarPedido() {
 
     if (escolhaCpf == 0) {
 
-        printf("\n Digite o CPF do cliente: \n");
+        do {
+        printf("\n Digite o CPF do cliente (XXX.XXX.XXX-XX): \n");
         fgets(pedidos[posicao]->cpf, sizeof(pedidos[posicao]->cpf), stdin);
         removerNovaLinha(pedidos[posicao]->cpf);
+
+        if (!validarCPF(pedidos[posicao]->cpf)){
+            printf("\n CPF digitado incorretamente, digite novamente. \n");
+        }
+
+        }while (!validarCPF(pedidos[posicao]->cpf));
 
         printf("%s \n", pedidos[posicao]->status);
         printf("\n Pedido CADASTRADO \n");
 
     } else {
-        strcpy(pedidos[posicao]->cpf, " NAO INFORMADO");
+        strcpy(pedidos[posicao]->cpf, "NAO INFORMADO");
 
         printf("%s \n", pedidos[posicao]->status);
         printf("\n Pedido CADASTRADO \n");
@@ -202,7 +262,7 @@ void cadastrarPedido() {
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "a");
     if (arquivo == NULL) {
 
-        printf("Erro ao abrir o arquivo para escrita.\n");
+        printf(" Erro ao abrir o arquivo para escrita.\n");
 
         return;
     }
@@ -228,7 +288,7 @@ void atualizarArquivoCSV() {
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "w");
 
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo para atualizar.\n");
+        printf(" Erro ao abrir o arquivo para atualizar.\n");
         return;
     }
 
@@ -248,29 +308,57 @@ void atualizarArquivoCSV() {
     fclose(arquivo);
 }
 
+
 /**
  * A função exibirPedidosSalvos(); tem o objetivo de fazer a soma do valor de todos os pedidos feitos.
 */
 void exibirPedidosSalvos() {
 
     char linha[256];
+    int campos;
+    pedido p;
+    int g = 254;
+    int h = 219;
+    int v = 220;
 
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "r");
     if (arquivo == NULL) {
-        printf("Arquivo de pedidos nao encontrado.\n");
+        printf(" Arquivo de pedidos nao encontrado.\n");
         return;
     }
 
-    printf("\nPedidos Salvos:\n");
-    printf("============================\n");
+    printf("\n              PEDIDOS SALVOS\n");
+    linhas(45);
+    printf("\n");
+    linhas(20);
+
 
     while (fgets(linha, sizeof(linha), arquivo)) {
-        printf("%s", linha);
+        removerNovaLinha(linha);
+
+        campos = sscanf(linha, "%d,%60[^,],%99[^,],%9[^,],%19[^,],%999[^,],%50[^\n]",
+           &p.numero, p.nome, p.item, p.qtd, p.cpf, p.preco, p.status
+       );
+
+
+        if (campos == 7) {
+            linhas(20);
+            printf("\n %c Pedido #%d          \n",g, p.numero);
+            printf(" %c Nome        :  %s     \n",g, p.nome);
+            printf(" %c Item        :  %s     \n",g, p.item);
+            printf(" %c Quantidade  :  %s     \n",g, p.qtd);
+            printf(" %c CPF         :  %s     \n",g, p.cpf);
+            printf(" %c Preco       :  R$ %s  \n",g, p.preco);
+            printf(" %c Status      : %s     \n",g, p.status);
+            linhas(20);
+        } else {
+            printf(" Linha inválida encontrada: %s\n", linha);
+        }
     }
 
-    printf("============================\n");
-
-    fclose(arquivo);
+    linhas(20);
+    printf("\n");
+    linhas(45);
 }
 
 
@@ -286,7 +374,11 @@ void calcularFaturamentoTotal() {
             total += atof(pedidos[i]->preco);
         }
     }
-    printf("Faturamento total: R$ %.2f\n", total);
+    linhas(35);
+    printf("\n");
+    printf("\n  Faturamento total: R$ %.2f  \n", total);
+    printf("\n");
+    linhas(35);
 }
 
 
@@ -298,7 +390,7 @@ void alterarStatusPedido() {
     int numero;
     char novoStatus[MAX_STATUS];
 
-    printf("Digite o numero do pedido que deseja alterar: ");
+    printf(" Digite o numero do pedido que deseja alterar: ");
     scanf("%d", &numero);
     limparBufferEntrada();
 
@@ -315,7 +407,7 @@ void alterarStatusPedido() {
             return;
         }
     }
-    printf("Pedido nao encontrado.\n");
+    printf(" Pedido nao encontrado.\n");
 }
 
 /**
@@ -336,19 +428,19 @@ void carregarPedidosDoCSV() {
 
     FILE *arquivo = fopen("C:\\Users\\Pichau\\Projeto\\pasta\\pedidos.csv", "r");
     if (arquivo == NULL) {
-        printf("Arquivo de pedidos não encontrado. Iniciando com lista vazia.\n");
+        printf(" Arquivo de pedidos nao encontrado.\n");
         return;
     }
 
     while (fgets(linha, sizeof(linha), arquivo)) {
         if (i >= MAX_PEDIDO) {
-            printf("Limite de pedidos atingido durante o carregamento.\n");
+            printf(" Limite de pedidos atingido.\n");
             break;
         }
 
         pedidos[i] = (pedido *)malloc(sizeof(pedido));
         if (pedidos[i] == NULL) {
-            printf("Erro de alocação de memória.\n");
+            printf(" Erro de alocação de memória.\n");
             break;
         }
 
@@ -365,7 +457,7 @@ void carregarPedidosDoCSV() {
         );
 
         if (camposLidos != 7) {
-            printf("Linha inválida no CSV e será ignorada: %s\n", linha);
+            printf(" Linha inválida no CSV e será ignorada: %s\n", linha);
             pedidos[i] = NULL;
 
         } else {
@@ -387,7 +479,7 @@ void buscarPedidoPorNumero() {
 
     int numero;
 
-    printf("Digite o numero do pedido que deseja buscar: ");
+    printf(" Digite o numero do pedido que deseja buscar: ");
     scanf("%d", &numero);
     limparBufferEntrada();
 
@@ -397,5 +489,44 @@ void buscarPedidoPorNumero() {
             return;
         }
     }
-    printf("Pedido com numero %d nao encontrado.\n", numero);
+    printf(" Pedido com numero %d nao encontrado.\n", numero);
+}
+
+/**
+ * A função excluirPedido(); tem o objetivo excluir algum pedido já feito.
+*/
+void excluirPedido() {
+
+    int n;
+    int encontrado;
+    int novo = 1;
+
+    printf(" Digite o numero do pedido a ser excluido: ");
+    scanf("%d", &n);
+    limparBufferEntrada();
+
+    for (int i = 0; i < MAX_PEDIDO; i++) {
+        if (pedidos[i] != NULL && pedidos[i]->numero == n) {
+        pedidos[i] = NULL;
+        encontrado = 1;
+        break;
+        }
+    }
+
+    if (!encontrado) {
+        printf(" Pedido com numero %d nao encontrado.\n", n);
+        return;
+    }
+
+    for (int i = 0; i < MAX_PEDIDO; i++) {
+        if (pedidos[i] != NULL) {
+            pedidos[i] -> numero = novo++;
+        }
+    }
+
+    contador = novo - 1;
+
+    atualizarArquivoCSV();
+    printf("Pedido excluido");
+
 }

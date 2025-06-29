@@ -28,8 +28,11 @@ int main(void) {
             case 5:
                 buscarPedidoPorNumero();
                 break;
+            case 6:
+                excluirPedido();
+                break;
             case 9:
-                printf("Encerrando o sistema\n");
+                printf("Encerrando o sistema . . . \n");
                 break;
             default:
                 printf("Opcao invalida\n");
@@ -38,7 +41,7 @@ int main(void) {
             pausaParaContinuar();
         }
     } while (opcao != 9);
-    printf("Programa finalizado\n");
+    printf("** Obrigado por usar nosso sistema **\nPrograma finalizado!\n");
     return 0;
 }
 

@@ -41,5 +41,7 @@ void carregarPedidosDoCSV();
 
 void buscarPedidoPorNumero();
 
+void excluirPedido();
+
 
 #endif // PROJETO_H
