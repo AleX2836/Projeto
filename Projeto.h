@@ -1,12 +1,12 @@
 #ifndef PROJETO_H
 #define PROJETO_H
 
-#define MAX_PEDIDO 10000
+#define MAX_PEDIDO 500
 #define MAX_NOME 61
 #define MAX_ITEM 100
 #define MAX_CPF 20
 #define MAX_QTD 10
-#define MAX_PRECO 10000
+#define MAX_PRECO 20
 #define MAX_STATUS 51
 
 typedef struct pedido {

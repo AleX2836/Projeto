@@ -58,6 +58,9 @@ int contadorPedido() {
     return ++contador;
 }
 
+/**
+ * A função linhas(int qtd); tem o objetivo de ajudar na estética dos menus.
+*/
 void linhas(int qtd){
 
     int v = 220;
@@ -74,7 +77,7 @@ int validarNome(const *nome) {
 
     if (strlen(nome) == 0) return 0;
 
-    for (int i = 0; i < nome[i] != '\0'; i++) {
+    for (int i = 0; nome[i] != '\0'; i++) {
         if (nome[i] >='0' && nome[i] <= '9') {
             return 0;
         }
@@ -116,7 +119,7 @@ void exibirMenu() {
     printf(" %c   1 %c Cadastrar Novo Pedido     %c\n", a,f, a);
     printf(" %c   2 %c Exibir Pedidos Salvos     %c\n", a,f, a);
     printf(" %c   3 %c Exibir Faturamento Total  %c\n", a,f, a);
-    printf(" %c   4 %c alterar Status do Pedido  %c\n", a,f, a);
+    printf(" %c   4 %c Alterar Status do Pedido  %c\n", a,f, a);
     printf(" %c   5 %c Buscar Pedido por Numero  %c\n", a,f, a);
     printf(" %c   6 %c Excluir pedido            %c\n", a,f, a);
     printf(" %c   9 %c SAIR do sistema           %c\n", a,f, a);
@@ -161,7 +164,7 @@ void cardapio() {
     printf(" %c  2 %c Marmitex Pequena.(R$ 13)   %c\n",a,f ,a);
     printf(" %c  3 %c Marmitex Media...(R$ 23)   %c\n",a,f ,a);
     printf(" %c  4 %c Marmitex Grande..(R$ 30)   %c\n",a,f ,a);
-    printf(" %c  5 %c Marmitex Media...(R$ 23)   %c\n",a,f ,a);
+    printf(" %c  5 %c Marmitex do dia..(R$ 23)   %c\n",a,f ,a);
     printf(" %c  6 %c Coca Cola........(R$ 08)   %c\n",a,f ,a);
     printf(" %c  7 %c Coxinha..........(R$ 10)   %c\n",a,f ,a);
     printf(" %c                                 %c\n",a ,a);
@@ -380,7 +383,6 @@ void calcularFaturamentoTotal() {
     printf("\n");
     linhas(35);
 }
-
 
 /**
  * A função alterarStatusPedido(); tem o objetivo de alterar o status dos pedidos que foram realizados outrora ou os que foram realizados recentemente.

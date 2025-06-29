@@ -27,13 +27,13 @@ CSV.
 
 ## Como Baixar e Compilar
 
-1. **Cloneo repositório:**
+1. **Clone o repositório:**
     ```bash
    git clone github.com/AleX2836/Projeto.git
    cd Projeto
    ```
 
-2. **Compile ocódigo:**
+2. **Compile o código:**
    Certifique-se de ter um compilador C(como o GCC) instalado.
    ```bash
    gcc -O main.c Projeto.c -Wall
