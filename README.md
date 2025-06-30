@@ -17,7 +17,8 @@ Item escolhido, a quantidade de item escolhido, o preço total, CPF e Status do 
 - Exibir Todos Pedidos Salvos;
 - Calculo do Faturamento Total;
 - Atualização do Status do Pedido;
-- Busca por número do Pedido;
+- Excluir pedido;
+- Busca por número do Pedido.
 
 ## Estrutura de Dados
 
